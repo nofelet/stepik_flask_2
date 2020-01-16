@@ -1,4 +1,6 @@
 
+import json
+
 goals = {"travel":"Для путешествий","study":"Для учебы","work":"Для работы","relocate":"Для переезда"}
 
 
@@ -307,3 +309,18 @@ teachers = {
 
 
 }
+"""
+# This shall only be done once, to create json files.
+
+with open('teachers.json', 'w', encoding='utf-8') as t:
+    json.dump(teachers, t)
+
+with open('goals.json', 'w', encoding='utf-8') as g:
+    json.dump(goals, g)
+
+# Check if utf-8 works
+with open('goals.json', 'r', encoding='utf-8') as g:
+    jsonized_goals = json.load(g)
+
+print(jsonized_goals['travel'])
+"""
