@@ -1,6 +1,14 @@
 from flask import Flask, render_template
 
-from moсk_data import *
+import json
+
+with open('goals.json', encoding='utf-8') as g:
+    all_goals = json.load(g)
+
+with open('teachers.json', encoding='utf-8') as t:
+    teachers = json.load(t)
+
+links = [{'title': 'Все репетиторы', 'link': ''}, {'title': 'Заявка на подбор', 'link': 'request'}]
 
 app = Flask(__name__)
 
@@ -30,7 +38,14 @@ def goals():
 
 
 @app.route('/profiles/<id>/')
-def profiles():
+def profiles(id):
+    output = render_template('profile.html',
+                             links=links,
+                             goals=all_goals,
+                             teacher=teachers[id],
+                             id=id
+                             )
+    return output
     """
     this_tour = tours[int(id)]
     output = render_template('tour.html',
@@ -42,8 +57,9 @@ def profiles():
                              picture=this_tour['picture'],
                              desc=this_tour['description'],
                              price=str(this_tour['price']))
-    """
+
     return 'Здесь предлагают разместить тур, но вообще-то здесь должно быть что-то про учителя'
+    """
 
 @app.route('/search?s=aaaa')
 def search():
@@ -53,10 +69,13 @@ def search():
 def reqs():
     return 'Здесь будут заявки на подбор учителя'
 
-@app.route('/booking/<id>')
-def booking():
+@app.route('/booking/<id>/<day>/<time>')
+def booking(id, day, time):
     return 'Здесь будут формы бронирования'
 
+@app.route('/message/<id>')
+def message(id):
+    return 'Сообщение преподу'
 
 if __name__ == '__main__':
     app.run()

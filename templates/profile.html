@@ -8,13 +8,17 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
+            {% for link in links %}
+                {% if request.path == link.link %}
+                    {% set actvie_class = "active" %}
+                {% else %}
+                    {% set active_class = ""%}
+                {% endif %}
 
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Все репетиторы</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Заявка на подбор</a>
-            </li>
+                <li class="nav-item {{ active_class }}">
+                    <a class="nav-link" href="/{{ link.link }}">{{ link.title }}</a>
+                </li>
+            {% endfor %}
 
         </ul>
     </div>
@@ -29,14 +33,20 @@
 
     <div class="card-body m-4">
         <div class="row">
-            <div class="col-5"><img src="../static/pict 1.png" class="img-fluid">
+            <div class="col-5"><img src="/static/pict {{id}}.png" class="img-fluid">
             </div>
             <div class="col-7">
-                <h2>Morris Simmmons</h2>
-                <p><span class="badge badge-secondary mr-2">Для путешествий </span>Рейтинг: 4.8 Ставка: 1200 / час</p>
-                <p >Native English language teacherHi Everyone! My name is Richard; I am a native English speaker. I was born in South Africa, Spent 12 years living in the UK and am now living in Spain. I have a degree in food science, a TEFL certificate and a level 3 in training and education. I worked in cheese manufacturing for many years and have good knowledge of dairy production and food safety topics.
+                <h2>{{ teacher.name }}</h2>
+                <p>
+                    {%- for goal in teacher.goals -%}
+                        <span class="badge badge-secondary mr-2">{{ goals[goal] }}</span>
+                    {%- endfor -%}
+                    Рейтинг: {{ teacher.rating }} Ставка: {{ teacher.price }} / час
+                </p>
+
+                <p >{{ teacher.about }}</p>
                 <br> <br>
-                <a href="" class="btn btn-outline-secondary btn-sm ">Отправить сообщение</a>
+                <a href="/message/{{ id }}" class="btn btn-outline-secondary btn-sm ">Отправить сообщение</a>
             </div>
         </div>
     </div>
@@ -56,51 +66,51 @@
             </tr> 
             <tr>
                 <td><span class="btn">8:00</span></td>
-                <td><a href="" class="btn btn-sm btn-secondary">8:00</a></td>
-                <td><a href="" class="btn btn-sm btn-secondary">8:00</a></td>
-                <td><a href="" class="btn btn-sm btn-secondary">8:00</a></td>
-                <td><a href="" class="btn btn-sm btn-secondary">8:00</a></td>
-                <td><a href="" class="btn btn-sm btn-secondary">8:00</a></td>
+                <td><a href="/booking/{{ id }}/mo/8" class="btn btn-sm btn-secondary">8:00</a></td>
+                <td><a href="/booking/{{ id }}/tu/8" class="btn btn-sm btn-secondary">8:00</a></td>
+                <td><a href="/booking/{{ id }}/we/8" class="btn btn-sm btn-secondary">8:00</a></td>
+                <td><a href="/booking/{{ id }}/th/8" class="btn btn-sm btn-secondary">8:00</a></td>
+                <td><a href="/booking/{{ id }}/fr/8" class="btn btn-sm btn-secondary">8:00</a></td>
                 <td>–</td>
                 <td>–</td>
             </tr>
             <tr>
                 <td><span class="btn">10:00</span></td>
-                <td><a href="" class="btn btn-sm btn-secondary">10:00</a></td>
-                <td><a href="" class="btn btn-sm btn-success">10:00</a></td>
-                <td><a href="" class="btn btn-sm btn-success">10:00</a></td>
-                <td><a href="" class="btn btn-sm btn-success">10:00</a></td>
-                <td><a href="" class="btn btn-sm btn-secondary">10:00</a></td>
+                <td><a href="/booking/{{ id }}/mo/10" class="btn btn-sm btn-secondary">10:00</a></td>
+                <td><a href="/booking/{{ id }}/tu/10" class="btn btn-sm btn-success">10:00</a></td>
+                <td><a href="/booking/{{ id }}/we/10" class="btn btn-sm btn-success">10:00</a></td>
+                <td><a href="/booking/{{ id }}/th/10" class="btn btn-sm btn-success">10:00</a></td>
+                <td><a href="/booking/{{ id }}/fr/10" class="btn btn-sm btn-secondary">10:00</a></td>
                 <td>–</td>
                 <td>–</td>
             </tr>
             <tr>
                 <td><span class="btn">12:00</span></td>
-                <td><a href="" class="btn btn-sm btn-secondary">12:00</a></td>
-                <td><a href="" class="btn btn-sm btn-success">12:00</a></td>
-                <td><a href="" class="btn btn-sm btn-success">12:00</a></td>
-                <td><a href="" class="btn btn-sm btn-success">12:00</a></td>
-                <td><a href="" class="btn btn-sm btn-secondary">12:00</a></td>
+                <td><a href="/booking/{{ id }}/mo/12" class="btn btn-sm btn-secondary">12:00</a></td>
+                <td><a href="/booking/{{ id }}/tu/12" class="btn btn-sm btn-success">12:00</a></td>
+                <td><a href="/booking/{{ id }}/we/12" class="btn btn-sm btn-success">12:00</a></td>
+                <td><a href="/booking/{{ id }}/th/12" class="btn btn-sm btn-success">12:00</a></td>
+                <td><a href="/booking/{{ id }}/fr/12" class="btn btn-sm btn-secondary">12:00</a></td>
                 <td>–</td>
                 <td>–</td>
             </tr>
             <tr>
                 <td><span class="btn">14:00</span></td>
-                <td><a href="" class="btn btn-sm btn-secondary">14:00</a></td>
-                <td><a href="" class="btn btn-sm btn-success">14:00</a></td>
-                <td><a href="" class="btn btn-sm btn-success">14:00</a></td>
-                <td><a href="" class="btn btn-sm btn-success">14:00</a></td>
-                <td><a href="" class="btn btn-sm btn-secondary">14:00</a></td>
+                <td><a href="/booking/{{ id }}/mo/14" class="btn btn-sm btn-secondary">14:00</a></td>
+                <td><a href="/booking/{{ id }}/tu/14" class="btn btn-sm btn-success">14:00</a></td>
+                <td><a href="/booking/{{ id }}/we/14" class="btn btn-sm btn-success">14:00</a></td>
+                <td><a href="/booking/{{ id }}/th/14" class="btn btn-sm btn-success">14:00</a></td>
+                <td><a href="/booking/{{ id }}/fr/14" class="btn btn-sm btn-secondary">14:00</a></td>
                 <td>–</td>
                 <td>–</td>
             </tr>
             <tr>
                 <td><span class="btn">16:00</span></td>
-                <td><a href="" class="btn btn-sm btn-secondary">16:00</a></td>
-                <td><a href="" class="btn btn-sm btn-success">16:00</a></td>
-                <td><a href="" class="btn btn-sm btn-success">16:00</a></td>
-                <td><a href="" class="btn btn-sm btn-success">16:00</a></td>
-                <td><a href="" class="btn btn-sm btn-secondary">16:00</a></td>
+                <td><a href="/booking/{{ id }}/mo/16" class="btn btn-sm btn-secondary">16:00</a></td>
+                <td><a href="/booking/{{ id }}/tu/16" class="btn btn-sm btn-success">16:00</a></td>
+                <td><a href="/booking/{{ id }}/we/16" class="btn btn-sm btn-success">16:00</a></td>
+                <td><a href="/booking/{{ id }}/th/16" class="btn btn-sm btn-success">16:00</a></td>
+                <td><a href="/booking/{{ id }}/fr/16" class="btn btn-sm btn-secondary">16:00</a></td>
                 <td>–</td>
                 <td>–</td>
             </tr>
