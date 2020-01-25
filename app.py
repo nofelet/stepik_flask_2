@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 import json
 
@@ -9,6 +9,7 @@ with open('teachers.json', encoding='utf-8') as t:
     teachers = json.load(t)
 
 links = [{'title': 'Все репетиторы', 'link': ''}, {'title': 'Заявка на подбор', 'link': 'request'}]
+days = {'mo': 'Понедельник', 'tu': 'Вторник', 'we': 'Среда', 'th': 'Четверг', 'fr': 'Пятница'}
 
 app = Flask(__name__)
 
@@ -46,20 +47,6 @@ def profiles(id):
                              id=id
                              )
     return output
-    """
-    this_tour = tours[int(id)]
-    output = render_template('tour.html',
-                             title=this_tour['title'],
-                             stars=this_tour['stars'],
-                             country=this_tour['country'],
-                             dep=departures[this_tour['departure']],
-                             nights=this_tour['nights'],
-                             picture=this_tour['picture'],
-                             desc=this_tour['description'],
-                             price=str(this_tour['price']))
-
-    return 'Здесь предлагают разместить тур, но вообще-то здесь должно быть что-то про учителя'
-    """
 
 @app.route('/search?s=aaaa')
 def search():
@@ -71,11 +58,39 @@ def reqs():
 
 @app.route('/booking/<id>/<day>/<time>')
 def booking(id, day, time):
-    return 'Здесь будут формы бронирования'
+    with open ('request.json', 'w', encoding='utf-8') as r:
+        json.dump({'day': days[day], 'time': time+':00'}, r)
+    output = render_template('booking.html',
+                             links=links,
+                             teacher=teachers[id],
+                             days=days,
+                             id=id,
+                             day=day,
+                             time=time)
+    return output
 
 @app.route('/message/<id>')
 def message(id):
     return 'Сообщение преподу'
 
+@app.route('/sent/', methods=['GET'])
+def sent():
+    name = request.args.get('name') # for some reason, request.form.get(item) and request.form[item] don't work.
+    phone = request.args.get('phone')
+    with open('request.json', encoding='utf-8') as r:
+        jsonized_data = json.load(r)
+    day = jsonized_data['day']
+    time = jsonized_data['time']
+
+    with open('request.json', 'w', encoding='utf-8') as r:
+        json.dump({'day': day, 'time': time, 'name': name, 'phone': phone}, r)
+    output = render_template('sent.html',
+                             links=links,
+                             name=name,
+                             phone=phone,
+                             day=day,
+                             time=time)
+    return output
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
