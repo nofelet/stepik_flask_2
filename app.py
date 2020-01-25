@@ -58,7 +58,9 @@ def search():
 
 @app.route('/request')
 def reqs():
-    return 'Здесь будут заявки на подбор учителя'
+    output = render_template('pick.html',
+                             links=links)
+    return output
 
 @app.route('/booking/<id>/<day>/<time>')
 def booking(id, day, time):
