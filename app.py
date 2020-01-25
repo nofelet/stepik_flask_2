@@ -8,21 +8,22 @@ with open('goals.json', encoding='utf-8') as g:
 with open('teachers.json', encoding='utf-8') as t:
     teachers = json.load(t)
 
-links = [{'title': 'Все репетиторы', 'link': ''}, {'title': 'Заявка на подбор', 'link': 'request'}]
+teacher_ids = []
+for teacher_id in teachers:
+    teacher_ids.append(teacher_id)
+
+links = [{'title': 'Все репетиторы', 'link': '/'}, {'title': 'Заявка на подбор', 'link': '/request'}]
 days = {'mo': 'Понедельник', 'tu': 'Вторник', 'we': 'Среда', 'th': 'Четверг', 'fr': 'Пятница'}
 
 app = Flask(__name__)
 
 @app.route('/')
 def main():
-    """
     output = render_template('index.html',
-                             title=title,
-                             subtitle=subtitle,
-                             description=description,
-                             tours=tours.items())
-    """
-    return 'Здесь будет главная'
+                             links=links,
+                             teachers=teachers,
+                             teacher_ids=teacher_ids)
+    return output
 
 
 @app.route('/goals/<goal>/')
