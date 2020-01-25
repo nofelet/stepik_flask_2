@@ -26,17 +26,21 @@ def main():
 
 
 @app.route('/goals/<goal>/')
-def goals():
-    """
-    departure = departures[direction]
-    output = render_template('direction.html',
-                             departures=departures.items(),
-                             departure=departure,
-                             direction=direction,
-                             tours=tours.items())
-    """
-    return 'Здесь будет цель goals'
+def goals(goal):
+    goal_ru = all_goals[goal].lower()
+    teachers_with_goal = []
+    for teacher_id in teachers:
+        if goal in teachers[teacher_id]['goals']:
+            teachers_with_goal.append(teacher_id)
+    teachers_with_goal.sort(key=lambda teacher_id: teachers[teacher_id]['rating'], reverse=True)
 
+    output = render_template('goal.html',
+                             links=links,
+                             teachers_with_goal=teachers_with_goal,
+                             teachers=teachers,
+                             goal=goal,
+                             goal_ru=goal_ru)
+    return output
 
 @app.route('/profiles/<id>/')
 def profiles(id):
@@ -44,8 +48,7 @@ def profiles(id):
                              links=links,
                              goals=all_goals,
                              teacher=teachers[id],
-                             id=id
-                             )
+                             id=id)
     return output
 
 @app.route('/search?s=aaaa')
