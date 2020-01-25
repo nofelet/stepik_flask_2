@@ -35,6 +35,10 @@
 
 <h5 class="text-center mb-5">Свободны прямо сейчас</h5>
 
+{% for teacher in teachers %}
+    {% set teacher_ids = teacher_ids.append(teacher) %}
+{% endfor %}
+
 <div class="w-75 m-auto">
     {% for _ in range(6) %}
         {% set id = teacher_ids|random %}

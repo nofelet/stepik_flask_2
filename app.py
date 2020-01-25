@@ -8,10 +8,6 @@ with open('goals.json', encoding='utf-8') as g:
 with open('teachers.json', encoding='utf-8') as t:
     teachers = json.load(t)
 
-teacher_ids = []
-for teacher_id in teachers:
-    teacher_ids.append(teacher_id)
-
 links = [{'title': 'Все репетиторы', 'link': '/'}, {'title': 'Заявка на подбор', 'link': '/request'}]
 days = {'mo': 'Понедельник', 'tu': 'Вторник', 'we': 'Среда', 'th': 'Четверг', 'fr': 'Пятница'}
 
@@ -22,7 +18,7 @@ def main():
     output = render_template('index.html',
                              links=links,
                              teachers=teachers,
-                             teacher_ids=teacher_ids)
+                             teacher_ids=[])
     return output
 
 
@@ -54,7 +50,7 @@ def profiles(id):
 
 @app.route('/search?s=aaaa')
 def search():
-    return 'Здесь буедт поиск'
+    return 'Здесь будет поиск'
 
 @app.route('/request')
 def reqs():
@@ -77,7 +73,11 @@ def booking(id, day, time):
 
 @app.route('/message/<id>')
 def message(id):
-    return 'Сообщение преподу'
+    output = render_template('message.html',
+                             links=links,
+                             id=id,
+                             teachers=teachers)
+    return output
 
 @app.route('/sent/', methods=['GET'])
 def sent():
